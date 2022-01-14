@@ -8,6 +8,17 @@ public class HTNaive {
         this.T = new ListeBigI[m];
     }
 
+    public HTNaive(ListeBigI l, int m) {
+        this(m);
+        this.T.ajoutListe(l);
+    }
+
+    public HTNaive(ListeBigI l, double f) {
+        while(!L.estVide()) {
+            this.ajout(L.supprTete());
+        }
+    }
+
     public String toString() {
         String str = "";
         for(int i = 0; i < this.T.length; i++) {
@@ -16,6 +27,28 @@ public class HTNaive {
             }
             else {
                 str += "t[" + i + "] : " + this.T[i].toString() + "\n";
+            }    
+        }
+        return str;
+    }
+
+    public String toStringV2() {
+        String str = "";
+        for(int i = 0; i < this.T.length; i++) {
+            if(!this.T[i].estVide()) {
+                if(i == this.T.length-1) {
+                    str += "t[" + i + "] : ";
+                    for(int j = 0; j < this.T[i].longueur(); j++) {
+                        str += "*";
+                    }
+                }
+                else {
+                    str += "t[" + i + "] : ";
+                    for(int j = 0; j < this.T[i].longueur(); j++) {
+                        str += "*";
+                    }
+                    str += "\n";
+                }
             }    
         }
         return str;
@@ -44,12 +77,8 @@ public class HTNaive {
     }
 
     public void ajoutListe(ListeBigI L) {
-        int i = 0;
-        while(!this.T[h(L)].estVide() && i < this.T.length) {
-            i++;
-        }
-        if(this.T[i].estVide()) {
-            this.T[i] = L;
+        while(!L.estVide()) {
+            this.ajout(L.supprTete());
         }
     }
 
@@ -61,11 +90,11 @@ public class HTNaive {
         return L;
     }
 
-    public int getNbListes(){
+    public int getNbListes() {
         return this.T.length;
     }
 
-    public int getCardinal(){
+    public int getCardinal() {
         int somme = 0;
         for(int i = 0; i < this.T.length; i++) {
             somme += this.T[i].longueur();
