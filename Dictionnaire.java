@@ -1,4 +1,7 @@
 import java.math.BigInteger;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Dictionnaire {
 	
@@ -6,6 +9,16 @@ public class Dictionnaire {
 
 	public Dictionnaire(int m) {
 		this.h = new HTNaive[m];
+	}
+
+	public Dictionnaire(String fileName, int m) {
+		this(m);
+		this.h.ajoutListe(calculeListeInt(fileName));
+	}
+
+	public Dictionnaire(String fileName, double f) {
+		HTNaive temp = new HTNaive(calculeListeInt(fileName, 1000));
+        this(fileName, (int)(temp.getCardinal() * f));
 	}
 
 	public String toString() {
@@ -42,5 +55,26 @@ public class Dictionnaire {
 
 	public int getNbListes() {
 		return this.h.getNbListes();
+	}
+
+	public static ListeBigI calculeListeInt(String fileName) {
+		File f = new File(fileName);
+		ListeBigI res = new ListeBigI();
+		Scanner sc;
+		String mot;
+		try {
+			sc = new Scanner(f);
+		}
+		catch(FileNotFoundException e){
+			System.out.println(("problème d'accès au fichier " + e.getMessage()));
+			return res;
+		}
+		sc.useDelimiter(" |\\n|,|;|:|\\.|!|\\?|-");
+
+		while(sc.hasNext()) {
+			mot = sc.next();
+			res.ajoutTete(stringToBigInteger(mot));
+		}
+		return res;
 	}
 }

@@ -14,9 +14,8 @@ public class HTNaive {
     }
 
     public HTNaive(ListeBigI l, double f) {
-        while(!L.estVide()) {
-            this.ajout(L.supprTete());
-        }
+        HTNaive temp = new HTNaive(l, 1000);
+        this(l, (int)(temp.getCardinal() * f));
     }
 
     public String toString() {
